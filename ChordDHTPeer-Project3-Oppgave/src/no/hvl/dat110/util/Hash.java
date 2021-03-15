@@ -23,11 +23,15 @@ public class Hash {
 		// we use MD5 with 128 bits digest
 		
 		// compute the hash of the input 'entity'
-		
+		MessageDigest md = MessageDigest.getInstance(entity);
+
+		byte[] digest = md.digest();
+
 		// convert the hash into hex format
-		
+		String myHash = DatatypeConverter
+				.printHexBinary(digest).toUpperCase();
 		// convert the hex into BigInteger
-		
+		hashint= new BigInteger(myHash,16);
 		// return the BigInteger
 		
 		return hashint;
