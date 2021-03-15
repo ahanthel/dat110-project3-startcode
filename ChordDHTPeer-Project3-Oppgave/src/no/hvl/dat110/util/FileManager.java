@@ -55,21 +55,24 @@ public class FileManager {
 	public void createReplicaFiles() {
 	 	
 		// implement
-		
 		// set a loop where size = numReplicas
-		
 		// replicate by adding the index to filename
-		
 		// hash the replica
-		
 		// store the hash in the replicafiles array.
+
+		replicafiles = new BigInteger[numReplicas];
+		for (int i = 0; i < numReplicas; i++) {
+			filename+= i;
+			replicafiles[i]= Hash.hashOf(filename);
+		}
+
 
 	}
 	
     /**
      * 
      * @param bytesOfFile
-     * @throws RemoteException 
+     * @throws RemoteException
      */
     public int distributeReplicastoPeers() throws RemoteException {
     	int counter = 0;
