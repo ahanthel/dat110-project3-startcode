@@ -62,8 +62,9 @@ public class FileManager {
 
 		replicafiles = new BigInteger[numReplicas];
 		for (int i = 0; i < numReplicas; i++) {
-			filename+= i;
-			replicafiles[i]= Hash.hashOf(filename);
+
+			String filoename=filename+ i;
+			replicafiles[i]= Hash.hashOf(filoename);
 		}
 
 
