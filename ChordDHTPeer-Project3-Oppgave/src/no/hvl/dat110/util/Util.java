@@ -41,9 +41,12 @@ public class Util {
 		// a formula to check whether an id falls within the set {lower, upper} using the address size as our bound (modulos operation)
 		// it modifies 'upper' and 'id' when lower > upper e.g. set (6, 2) in mod 10 = {6, 7, 8, 9, 0, 1, 2}
 		// implement: read the descriptions above
-		if (lower.compareTo(upper)>0){
-			lower= lower.mod(BigInteger.valueOf(10));
+
+		boolean increament=false;
+		if (id.equals(lower) && id.equals(upper)){
+			increament= true;
 		}
+<<<<<<< HEAD
 		if (lower.compareTo(id) <=0 ){
 			if (lower.compareTo(id) <0 ){
 				if (id.compareTo(upper) == 0){
@@ -63,6 +66,40 @@ public class Util {
 			return true;
 		}
 		return false;
+=======
+
+		BigInteger modulo  = new BigInteger("2");
+		modulo = modulo.pow(128);
+
+
+
+		if (lower.compareTo(id)<0){
+			lower.add(BigInteger.ONE);
+			increament =true;
+		}
+		if (upper.compareTo(id)>0){
+			upper.add(BigInteger.ONE);
+			increament =true;
+		}
+
+		if (id.compareTo(lower)<0){
+			id.add(modulo);
+			increament=false;
+		}
+		if (lower.compareTo(upper) > 0){
+			if (upper.compareTo(id)<0){
+				increament=false;
+			}else {
+				upper = upper.add(modulo);
+				increament = true;
+			}
+		}
+
+
+
+		return increament;
+
+>>>>>>> ikkeSlettMeg
 	}
 	
 	public static List<String> toString(List<NodeInterface> list) throws RemoteException {
