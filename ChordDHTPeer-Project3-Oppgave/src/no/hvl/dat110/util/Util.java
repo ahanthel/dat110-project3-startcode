@@ -43,7 +43,10 @@ public class Util {
 		
 		// implement: read the descriptions above
 		if (lower.compareTo(upper)>0){
-			lower= lower.mod(BigInteger.valueOf(10));
+			upper= upper.add(Hash.addressSize());
+			if (id.compareTo(upper)<=0){
+				id=id.add(Hash.addressSize());
+			}
 		}
 		if (lower.compareTo(id) <=0 ){
 
