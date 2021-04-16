@@ -46,27 +46,7 @@ public class Util {
 		if (id.equals(lower) && id.equals(upper)){
 			increament= true;
 		}
-<<<<<<< HEAD
-		if (lower.compareTo(id) <=0 ){
-			if (lower.compareTo(id) <0 ){
-				if (id.compareTo(upper) == 0){
-					lower = lower.add(BigInteger.ONE);
-					return true;
-				}
-				if (id.compareTo(upper) <0 ){
-					lower = lower.add(BigInteger.ONE);
-					upper = upper.add(BigInteger.ONE);
-					return true;
-				}
-			}
-			if (id.compareTo(upper)<0){
-				upper = upper.add(BigInteger.ONE);
-				return true;
-			}
-			return true;
-		}
-		return false;
-=======
+
 
 		BigInteger modulo  = new BigInteger("2");
 		modulo = modulo.pow(128);
@@ -99,7 +79,7 @@ public class Util {
 
 		return increament;
 
->>>>>>> ikkeSlettMeg
+
 	}
 	
 	public static List<String> toString(List<NodeInterface> list) throws RemoteException {
