@@ -7,18 +7,18 @@ package no.hvl.dat110.util;
  */
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-public class Hash {
+public class Hash
+{
 
     private static BigInteger hashint;
 
-    public static BigInteger hashOf(String entity) {
+    public static BigInteger hashOf(String entity)
+    {
 
         // DONE: Hash a given string using MD5 and return the result as a BigInteger.
         // we use MD5 with 128 bits digest
@@ -28,9 +28,12 @@ public class Hash {
         // return the BigInteger
 
         MessageDigest msg = null;
-        try {
+        try
+        {
             msg = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e)
+        {
             e.printStackTrace();
         }
         msg.update(entity.getBytes());
@@ -42,41 +45,34 @@ public class Hash {
         return hashint;
     }
 
-    public static BigInteger addressSize() {
+    public static BigInteger addressSize()
+    {
 
         // Task: compute the address size of MD5
         // get the digest length
         // compute the number of bits = digest length * 8
         // compute the address size = 2 ^ number of bits
         // return the address size
-       BigInteger out = null;
+        BigInteger adrSize = BigInteger.valueOf(bitSize());
 
-        int length = hashint.bitLength();
-
-
-        length *=8;
-
-        length = (int) java.lang.Math.pow(2,length);
-        out = BigInteger.valueOf(length);
-
-
-        return out;
-
+        return adrSize.multiply(adrSize);
     }
 
-    public static int bitSize() {
-
+    public static int bitSize()
+    {
 
 
         // find the digest length
-        int digestlen =hashint.bitLength();
+        int digestlen = hashint.bitLength();
 
         return digestlen * 8;
     }
 
-    public static String toHex(byte[] digest) {
+    public static String toHex(byte[] digest)
+    {
         StringBuilder strbuilder = new StringBuilder();
-        for (byte b : digest) {
+        for (byte b : digest)
+        {
             strbuilder.append(String.format("%02x", b & 0xff));
         }
         return strbuilder.toString();
