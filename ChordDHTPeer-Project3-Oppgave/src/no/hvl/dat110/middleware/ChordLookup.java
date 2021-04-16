@@ -28,9 +28,9 @@ public class ChordLookup {
 	public NodeInterface findSuccessor(BigInteger key) throws RemoteException {
 		
 		// ask this node to find the successor of key
-		
+		node.findSuccessor(key);
 		// get the successor of the node
-		
+		BigInteger successor= (BigInteger) node.getSuccessor();
 		// get the stub for this successor (Util.getProcessStub())
 		
 		// check that key is a member of the set {nodeid+1,...,succID} i.e. (nodeid+1 <= key <= succID) using the ComputeLogic
