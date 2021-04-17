@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import no.hvl.dat110.middleware.ChordLookup;
 import no.hvl.dat110.middleware.Message;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
 import no.hvl.dat110.util.Hash;
@@ -63,8 +64,8 @@ public class FileManager {
 		replicafiles = new BigInteger[numReplicas];
 		for (int i = 0; i < numReplicas; i++) {
 
-			String filoename=filename+ i;
-			replicafiles[i]= Hash.hashOf(filoename);
+			String name=filepath+filename+ i;
+			replicafiles[i]= Hash.hashOf(name);
 		}
 
 
@@ -79,22 +80,25 @@ public class FileManager {
     	int counter = 0;
     	
     	// Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
-    	
     	// Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
-    	
+
+		createReplicaFiles();
+    	Random rnd =new Random();
+    	int index = rnd.nextInt(Util.numReplicas-1);
     	// create replicas of the filename
-    	
 		// iterate over the replicas
-    	
     	// for each replica, find its successor by performing findSuccessor(replica)
-    	
-    	// call the addKey on the successor and add the replica
-    	
-    	// call the saveFileContent() on the successor
-    	
-    	// increment counter
-    	
-    		
+		// call the addKey on the successor and add the replica
+		// call the saveFileContent() on the successor
+		// increment counter
+
+		for (int i=0;i<replicafiles.length;i++){
+			NodeInterface suc =chordnode.findSuccessor(replicafiles[i]);
+			suc.addKey(replicafiles[i]);
+			suc.saveFileContent(filename,suc.getNodeID(),bytesOfFile,true);
+			counter++;
+		}
+
 		return counter;
     }
 	
