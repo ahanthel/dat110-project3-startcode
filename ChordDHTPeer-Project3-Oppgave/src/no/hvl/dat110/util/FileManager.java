@@ -21,7 +21,7 @@ import java.util.Set;
 import no.hvl.dat110.middleware.ChordLookup;
 import no.hvl.dat110.middleware.Message;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
-import no.hvl.dat110.util.Hash;
+
 
 public class FileManager {
 	
@@ -82,9 +82,7 @@ public class FileManager {
     	// Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
     	// Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
 
-		createReplicaFiles();
-    	Random rnd =new Random();
-    	int index = rnd.nextInt(Util.numReplicas-1);
+
     	// create replicas of the filename
 		// iterate over the replicas
     	// for each replica, find its successor by performing findSuccessor(replica)
@@ -92,6 +90,9 @@ public class FileManager {
 		// call the saveFileContent() on the successor
 		// increment counter
 
+		createReplicaFiles();
+		Random rnd =new Random();
+		int index = rnd.nextInt(Util.numReplicas-1);
 		for (int i=0;i<replicafiles.length;i++){
 			NodeInterface suc =chordnode.findSuccessor(replicafiles[i]);
 			suc.addKey(replicafiles[i]);
@@ -113,17 +114,20 @@ public class FileManager {
 		this.filename = filename;
 		Set<Message> succinfo = new HashSet<Message>();
 		// Task: Given a filename, find all the peers that hold a copy of this file
-		
+
+		NodeInterface suc =chordnode.findSuccessor(Hash.hashOf(filename));
+		Set<BigInteger> keys = suc.getNodeKeys();
 		// generate the N replicas from the filename by calling createReplicaFiles()
-		
+		createReplicaFiles();
 		// it means, iterate over the replicas of the file
-		
 		// for each replica, do findSuccessor(replica) that returns successor s.
-		
 		// get the metadata (Message) of the replica from the successor, s (i.e. active peer) of the file
-		
 		// save the metadata in the set succinfo.
-		
+
+		for (int i=0;i<replicafiles.length;i++){
+			NodeInterface tmp =chordnode.findSuccessor(replicafiles[i]);
+			succinfo.add((Message) tmp.getFilesMetadata());
+		}
 		this.activeNodesforFile = succinfo;
 		
 		return succinfo;
