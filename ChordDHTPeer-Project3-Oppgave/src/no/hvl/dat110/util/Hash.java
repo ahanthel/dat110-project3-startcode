@@ -60,8 +60,6 @@ public class Hash
 
     public static int bitSize()
     {
-
-
         // find the digest length
         int digestlen = hashint.bitLength();
 
