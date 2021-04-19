@@ -91,8 +91,8 @@ public class FileManager {
 		// increment counter
 
 		createReplicaFiles();
-		Random rnd =new Random();
-		int index = rnd.nextInt(Util.numReplicas-1);
+		//Random rnd =new Random();
+		//int index = rnd.nextInt(Util.numReplicas-1);
 		for (int i=0;i<replicafiles.length;i++){
 			NodeInterface suc =chordnode.findSuccessor(replicafiles[i]);
 			suc.addKey(replicafiles[i]);
