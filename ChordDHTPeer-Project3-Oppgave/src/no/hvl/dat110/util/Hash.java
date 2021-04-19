@@ -7,6 +7,7 @@ package no.hvl.dat110.util;
  */
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hash
 {
-
+    private static int mbit;
     private static BigInteger hashint;
 
     public static BigInteger hashOf(String entity)
@@ -31,16 +32,22 @@ public class Hash
         try
         {
             msg = MessageDigest.getInstance("MD5");
+            msg.update(entity.getBytes("utf8"));
+            byte[] digest = msg.digest();
+
+            mbit = digest.length*8;
+
+            String myHash = DatatypeConverter.printHexBinary(digest);
+
+            hashint = new BigInteger(myHash, 16);
         }
-        catch (NoSuchAlgorithmException e)
+        catch (NoSuchAlgorithmException | UnsupportedEncodingException e)
         {
             e.printStackTrace();
         }
-        msg.update(entity.getBytes());
-        byte[] digest = msg.digest();
-        String myHash = DatatypeConverter
-                .printHexBinary(digest).toUpperCase();
-        hashint = new BigInteger(myHash, 16);
+
+
+
 
         return hashint;
     }
@@ -53,17 +60,14 @@ public class Hash
         // compute the number of bits = digest length * 8
         // compute the address size = 2 ^ number of bits
         // return the address size
-        BigInteger adrSize = BigInteger.valueOf(bitSize());
 
-        return adrSize.multiply(adrSize);
+        return new BigInteger("2").pow(bitSize());
     }
 
     public static int bitSize()
     {
         // find the digest length
-        int digestlen = hashint.bitLength();
-
-        return digestlen * 8;
+        return mbit;
     }
 
     public static String toHex(byte[] digest)
