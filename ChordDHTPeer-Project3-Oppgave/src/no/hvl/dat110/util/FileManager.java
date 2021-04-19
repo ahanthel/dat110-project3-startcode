@@ -68,13 +68,13 @@ public class FileManager
         for (int i = 0; i < numReplicas; i++)
         {
 
-            String name = filepath + filename + i;
+            String name = filename + i;
             replicafiles[i] = Hash.hashOf(name);
         }
     }
 
     /**
-     * @param bytesOfFile
+     * @param
      * @throws RemoteException
      */
     public int distributeReplicastoPeers() throws RemoteException
@@ -115,11 +115,8 @@ public class FileManager
     {
 
         this.filename = filename;
-        Set<Message> succinfo = new HashSet<Message>();
+        Set<Message> succinfo = new HashSet<>();
         // Task: Given a filename, find all the peers that hold a copy of this file
-
-        NodeInterface suc = chordnode.findSuccessor(Hash.hashOf(filename));
-        Set<BigInteger> keys = suc.getNodeKeys();
         // generate the N replicas from the filename by calling createReplicaFiles()
         createReplicaFiles();
         // it means, iterate over the replicas of the file
@@ -185,7 +182,7 @@ public class FileManager
     public void readFile() throws IOException, NoSuchAlgorithmException
     {
 
-        File f = new File(filepath);
+        File f = new File(filepath).getAbsoluteFile();
 
         byte[] bytesOfFile = new byte[(int) f.length()];
 
@@ -288,7 +285,7 @@ public class FileManager
     }
 
     /**
-     * @param size the size to set
+     * @param sizeOfByte the size to set
      */
     public void setSizeOfByte(String sizeOfByte)
     {

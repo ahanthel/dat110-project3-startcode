@@ -50,16 +50,15 @@ public class MutualExclusion {
 		System.out.println(node.nodename + " wants to access CS");
 		
 		// clear the queueack before requesting for votes
-		
+		queueack.clear();
 		// clear the mutexqueue
-		
+		mutexqueue.clear();
 		// increment clock
-		
+		clock.increment();
 		// adjust the clock on the message, by calling the setClock on the message
-				
+		message.setClock(clock.getClock());
 		// wants to access resource - set the appropriate lock variable
-	
-		
+		acquireLock();
 		// start MutualExclusion algorithm
 		
 		// first, removeDuplicatePeersBeforeVoting. A peer can contain 2 replicas of a file. This peer will appear twice
