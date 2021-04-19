@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import no.hvl.dat110.middleware.Message;
 import no.hvl.dat110.middleware.Node;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
 
@@ -58,6 +59,11 @@ public class Util {
 		);
 		
 		return nodestr;
+	}
+
+	public static NodeInterface getProcessStub(Message message)
+	{
+		return getProcessStub(message.getNodeIP(), message.getPort());
 	}
 	
 	public static NodeInterface getProcessStub(String name, int port) {

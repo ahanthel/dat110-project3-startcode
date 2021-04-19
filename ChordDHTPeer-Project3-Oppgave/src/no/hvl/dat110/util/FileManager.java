@@ -126,8 +126,7 @@ public class FileManager
 
         for (int i = 0; i < replicafiles.length; i++)
         {
-            NodeInterface tmp = chordnode.findSuccessor(replicafiles[i]);
-            for (Message msg : tmp.getFilesMetadata().values())
+            for (Message msg : chordnode.findSuccessor(replicafiles[i]).getFilesMetadata().values())
 			{
 				succinfo.add(msg);
 			}
@@ -182,7 +181,7 @@ public class FileManager
     public void readFile() throws IOException, NoSuchAlgorithmException
     {
 
-        File f = new File(filepath).getAbsoluteFile();
+        File f = new File(filepath);
 
         byte[] bytesOfFile = new byte[(int) f.length()];
 
