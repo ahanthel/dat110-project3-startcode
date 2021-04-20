@@ -63,7 +63,6 @@ public class MutualExclusion
         message.setClock(clock.getClock());
         // wants to access resource - set the appropriate lock variable
         WANTS_TO_ENTER_CS = true;
-        CS_BUSY = true;
         // start MutualExclusion algorithm
 
         // first, removeDuplicatePeersBeforeVoting. A peer can contain 2 replicas of a file. This peer will appear twice
@@ -114,7 +113,7 @@ public class MutualExclusion
 
         // write if statement to transition to the correct caseid
         // caseid=0: Receiver is not accessing shared resource and does not want to (send OK to sender)
-        if (!CS_BUSY && !WANTS_TO_ENTER_CS)
+        if (!WANTS_TO_ENTER_CS)
         {
             caseid = 0;
         }
@@ -124,7 +123,7 @@ public class MutualExclusion
             caseid = 1;
         }
         // caseid=2: Receiver wants to access resource but is yet to - compare own message clock to received message's clock
-        else if (WANTS_TO_ENTER_CS)
+        else
         {
             caseid = 2;
         }
@@ -144,17 +143,14 @@ public class MutualExclusion
                 // get a stub for the sender from the registry
                 // acknowledge message
                 // send acknowledgement back by calling onMutexAcknowledgementReceived()
-                NodeInterface stub = Util.getProcessStub(message);
-
                 message.setAcknowledged(true);
-                stub.onMutexAcknowledgementReceived(message);
+                Util.getProcessStub(message).onMutexAcknowledgementReceived(message);
                 break;
             }
 
             /** case 2: Receiver already has access to the resource (dont reply but queue the request) */
             case 1:
             {
-
                 // queue this message
                 queue.add(message);
                 break;
@@ -172,8 +168,8 @@ public class MutualExclusion
                 // if clocks are the same, compare nodeIDs, the lowest wins
                 // if sender wins, acknowledge the message, obtain a stub and call onMutexAcknowledgementReceived()
                 // if sender looses, queue it
-                if (clock.getClock() < message.getClock() ||
-                        (clock.getClock() == message.getClock()) && node.getNodeID().compareTo(message.getNodeID()) > 0)
+                if (node.getMessage().getClock() < message.getClock() ||
+                        (node.getMessage().getClock() == message.getClock()) && node.getNodeID().compareTo(message.getNodeID()) > 0)
                 {
                     queue.add(message);
                     break;
@@ -204,9 +200,8 @@ public class MutualExclusion
         for (Message node : activenodes)
         {
             // obtain a stub for each node from the registry
-            NodeInterface stub = Util.getProcessStub(node);
             // call releaseLocks()
-            stub.releaseLocks();
+            Util.getProcessStub(node).releaseLocks();
         }
 
     }
